@@ -1,0 +1,38 @@
+[DEFAULT]
+
+
+[interconnection]
+
+#
+# From networking-interconnection.interconnection
+#
+
+# The keystone service role that can manage any resources in any projects.
+# (string value)
+#network_admin_role = cloud_network_admin
+
+# The keystone auth_url in the current region. (string value)
+#auth_url = <None>
+
+# The current region. (string value)
+#region_name = RegionOne
+
+# The username of service user with a keystone role that can manage network
+# resources in all regions. (string value)
+#username = neutron_interconnection_plugin
+
+# The password of service user with a keystone role that can manage network
+# resources in all project. (string value)
+#password = <None>
+
+# The service project name of service user with a keystone role that can manage
+# network resources in all project. (string value)
+#project_name = service
+
+# The user domain name of service user with a keystone role that can manage
+# network resources in all projects. (string value)
+#user_domain_name = Default
+
+# The project domain name of service user with a keystone role that can manage
+# network resources in all projects. (string value)
+#project_domain_name = Default

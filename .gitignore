@@ -1,0 +1,14 @@
+.idea
+copy
+dev_install*
+dev_migrate
+venv
+*.pyc
+networking_interconnection.egg-info/*
+.eggs/*
+build/*
+AUTHORS
+ChangeLog
+.tox
+.*.swp
+.testrepository
