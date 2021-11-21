@@ -92,7 +92,8 @@ class Interconnection(standard_attr.HasStandardAttributes, model_base.BASEV2,
                       model_base.HasId, HasProjectNotNullable):
     """Represents a interconnection Object."""
     type = sa.Column(sa.Enum(*constants.TYPES, name="types"), nullable=False)
-    state = sa.Column(sa.Enum(*constants.STATES, name="states"), nullable=False)
+    state = sa.Column(
+        sa.Enum(*constants.STATES, name="states"), nullable=False)
     name = sa.Column(sa.String(255))
     local_resource_id = sa.Column(sa.String(36), nullable=False)
     remote_resource_id = sa.Column(sa.String(36), nullable=False)
@@ -108,7 +109,8 @@ class Interconnection(standard_attr.HasStandardAttributes, model_base.BASEV2,
 
 
 class InterconnectionPluginDb(object):
-    """Interconnection service plugin database class using SQLAlchemy models."""
+    """Interconnection service plugin database class using SQLAlchemy models.
+    """
 
     @db_api.CONTEXT_READER
     def _make_dict(self, db_obj: Interconnection,
@@ -150,7 +152,8 @@ class InterconnectionPluginDb(object):
         return self._make_dict(interconnection_db)
 
     @db_api.CONTEXT_READER
-    def get_interconnections(self, context, filters: typing.Optional[dict]=None,
+    def get_interconnections(self, context,
+                             filters: typing.Optional[dict]=None,
                              fields: typing.Optional[list]=None):
         db_objs = model_query.get_collection(
             context, Interconnection, None,

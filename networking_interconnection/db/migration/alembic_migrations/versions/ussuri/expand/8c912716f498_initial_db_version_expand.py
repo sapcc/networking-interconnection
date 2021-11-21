@@ -69,7 +69,7 @@ def upgrade():
     with session.begin(subtransactions=True):
         res = session.execute(
             standardattrs.select().where(
-                standardattrs.c.resource_type==op.inline_literal(table)
+                standardattrs.c.resource_type == op.inline_literal(table)
             )
         ).fetchone()
         if not res:

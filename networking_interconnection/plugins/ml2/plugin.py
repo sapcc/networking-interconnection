@@ -20,12 +20,10 @@ from neutronclient.common import exceptions as n_client_exc
 from oslo_config import cfg
 from oslo_log import log
 
-from networking_interconnection._i18n import _
-
 from networking_interconnection.common import clients
 from networking_interconnection.common import constants
-from networking_interconnection.extensions import interconnection as intc_exc
 from networking_interconnection.db import interconnaction_db as intc_db
+from networking_interconnection.extensions import interconnection as intc_exc
 from networking_interconnection.neutronclient.osc.v2 import (
     interconnection as osc_v2)
 from networking_interconnection import opts
@@ -119,8 +117,8 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
             return
         # set state VALIDATED for each side to start resources synchronization
         # see _sync_resources function. We have to update local interconnection
-        # via API instead of database because we need to start background action
-        # for AFTER_UPDATE event on each side in the same way.
+        # via API instead of database because we need to start background
+        # action for AFTER_UPDATE event on each side in the same way.
         self._update_interconnection(
             remote_neutron, intcn['remote_interconnection_id'],
             state=constants.STATE_VALIDATED,
@@ -222,11 +220,6 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
                 or r_intcn['local_resource_id'] != data['remote_resource_id']):
             LOG.error('Invalid resource settings in remote interconnection %s.'
                       % (data['remote_interconnection_id']))
-            raise intc_exc.InvalidRemoteInterconnection()
-        # check types
-        if r_intcn['type'] != data['type']:
-            LOG.error('Remote (%s) and local interconnections\' types do '
-                      'not match')
             raise intc_exc.InvalidRemoteInterconnection()
 
     def _validate_regions(self, data):

@@ -67,8 +67,8 @@ class CreateInterconnection(command.ShowOne):
             '--type',
             default=constants.TYPE_BGPVPN,
             choices=constants.TYPES,
-            help=_("Interconnection type of resource (default: %s)"
-                   % constants.TYPE_BGPVPN),
+            help=(_("Interconnection type of resource (default: %s)")
+                  % constants.TYPE_BGPVPN),
         )
         parser.add_argument(
             '--local-resource-id',
@@ -204,7 +204,8 @@ class DeleteInterconnection(command.Command):
                           "'%(id_or_name)s': %(e)s",
                           {'id_or_name': id_or_name, 'e': e})
         if fails > 0:
-            msg = (_("Failed to delete %(fails)s of %(total)s Interconnection.")
+            msg = (_("Failed to delete %(fails)s of %(total)s "
+                     "Interconnection.")
                    % {'fails': fails,
                       'total': len(parsed_args.interconnections)})
             raise exceptions.CommandError(msg)

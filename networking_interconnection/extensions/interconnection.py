@@ -16,13 +16,11 @@ import abc
 
 import six
 
-from neutron.api import extensions
 from neutron.api.v2 import resource_helper
-from neutron_lib import exceptions as n_exc
 from neutron_lib.api.definitions import bgpvpn as api_bgpvpn_def
 from neutron_lib.api import extensions as api_extensions
-from neutron_lib.api import validators
 from neutron_lib.db import constants as db_const
+from neutron_lib import exceptions as n_exc
 from neutron_lib.services import base as libbase
 
 from oslo_log import log

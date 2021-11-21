@@ -65,7 +65,8 @@ rules = [
         common_base.policy_or(
             RULE_ADMIN_ONLY,
             'rule:interconnection',
-        ),        'Update ``state`` attribute of a interconnection',
+        ),
+        'Update ``state`` attribute of a interconnection',
         [
             {
                 'method': 'PUT',

@@ -12,7 +12,6 @@
 
 import itertools
 
-from neutron.conf.services import provider_configuration
 from oslo_config import cfg
 
 
@@ -36,12 +35,12 @@ INTERCONNECTION_CONFIG_OPTS = [
                help='The current region.'),
     cfg.StrOpt('username',
                default='neutron_interconnection_plugin',
-               help='The username of service user with a keystone role that can'
-                    ' manage network resources in all regions.'),
+               help='The username of service user with a keystone role that '
+                    'can manage network resources in all regions.'),
     cfg.StrOpt('password',
                default=None,
-               help='The password of service user with a keystone role that can'
-                    ' manage network resources in all project.'),
+               help='The password of service user with a keystone role that '
+                    'can manage network resources in all project.'),
     cfg.StrOpt('project_name',
                default='service',
                help='The service project name of service user with a keystone '
