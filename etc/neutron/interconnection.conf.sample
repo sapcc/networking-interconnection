@@ -11,8 +11,12 @@
 # (string value)
 #network_admin_role = cloud_network_admin
 
+# Templated keystone auth_url to get remote keystone API, should contain
+# %(region)s section. (string value)
+#auth_url_template = https://identity-3.%(region)s.cloud.sap/v3
+
 # The keystone auth_url in the current region. (string value)
-#auth_url = <None>
+#endpoint_type = public
 
 # The current region. (string value)
 #region_name = RegionOne
@@ -36,3 +40,12 @@
 # The project domain name of service user with a keystone role that can manage
 # network resources in all projects. (string value)
 #project_domain_name = Default
+
+# Number of connect retries to keystone API endpoint. (integer value)
+#keystone_connect_retries = 5
+
+# Keystone request timeout in seconds. (floating point value)
+#keystone_connect_timeout = 10
+
+# Allow coincidence of interconnctions' regions. (boolean value)
+#allow_regions_coincidence = false

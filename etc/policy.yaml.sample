@@ -1,74 +1,32 @@
-# Definition of a shared bgpvpns
-#"shared_bgpvpns": "field:bgpvpns:shared=True"
+# Definition of interconnection admin role
+#"interconnection": "role:cloud_network_admin"
 
-# Create a BGP VPN
-# POST  /bgpvpn/bgpvpns
-#"create_bgpvpn": "rule:admin_only"
+# Create an interconnection
+# POST  /interconnection/interconnections
+#"create_interconnection": "rule:admin_only"
 
 # Update a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn": "rule:admin_or_owner"
+# PUT  /interconnection/interconnections/{id}
+#"update_interconnection": "rule:admin_only"
 
-# Update ``tenant_id`` attribute of a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn:tenant_id": "rule:admin_only"
+# Update ``name`` attribute of a interconnection
+# PUT  /interconnection/interconnections/{id}
+#"update_interconnection:name": "rule:admin_or_owner"
 
-# Update ``route_targets`` attribute of a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn:route_targets": "rule:admin_only"
+# Update ``state`` attribute of a interconnection
+# PUT  /interconnection/interconnections/{id}
+#"update_interconnection:state": "rule:admin_only or rule:interconnection"
 
-# Update ``import_targets`` attribute of a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn:import_targets": "rule:admin_only"
+# Update ``remote_interconnection_id`` attribute of a interconnection
+# PUT  /interconnection/interconnections/{id}
+#"update_interconnection:remote_interconnection_id": "rule:admin_only or rule:interconnection"
 
-# Update ``export_targets`` attribute of a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn:export_targets": "rule:admin_only"
+# Delete an interconnection
+# DELETE  /interconnection/interconnections/{id}
+#"delete_interconnection": "rule:admin_only"
 
-# Update ``route_distinguishers`` attribute of a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn:route_distinguishers": "rule:admin_only"
-
-# Update ``vni`` attribute of a BGP VPN
-# PUT  /bgpvpn/bgpvpns/{id}
-#"update_bgpvpn:vni": "rule:admin_only"
-
-# Delete a BGP VPN
-# DELETE  /bgpvpn/bgpvpns/{id}
-#"delete_bgpvpn": "rule:admin_only"
-
-# Get BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn": "rule:admin_or_owner or rule:shared_bgpvpns"
-
-# Get ``tenant_id`` attributes of BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn:tenant_id": "rule:admin_only"
-
-# Get ``route_targets`` attributes of BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn:route_targets": "rule:admin_only"
-
-# Get ``import_targets`` attributes of BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn:import_targets": "rule:admin_only"
-
-# Get ``export_targets`` attributes of  BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn:export_targets": "rule:admin_only"
-
-# Get ``route_distinguishers`` attributes of BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn:route_distinguishers": "rule:admin_only"
-
-# Get ``vni`` attributes of BGP VPNs
-# GET  /bgpvpn/bgpvpns
-# GET  /bgpvpn/bgpvpns/{id}
-#"get_bgpvpn:vni": "rule:admin_only"
+# Get interconnections
+# GET  /interconnection/interconnections
+# GET  /interconnection/interconnections/{id}
+#"get_interconnection": "rule:admin_or_owner"
 
