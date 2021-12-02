@@ -13,16 +13,15 @@
 #    under the License.
 #
 
-"""initial db version
-
-Revision ID: cad6e0c73704
+"""start networking_interconnection chain
+Revision ID: start_networking_interconnection
 Revises: None
 Create Date: 2021-10-25 15:15:44.004130
 
 """
 
 # revision identifiers, used by Alembic.
-revision = 'cad6e0c73704'
+revision = 'start_networking_interconnection'
 down_revision = None
 
 
