@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Cloudification GmbH
+# Copyright (c) 2021 Cloudification GmbH.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
