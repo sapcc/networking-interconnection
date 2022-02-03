@@ -48,8 +48,9 @@ class ClientManager(object):
             app_name='Neutron Interconnection',
             app_version=version.version_info,
         )
-        # Simple check that credentials are correct
-        session.get_token()
+        if self.cfg.check_credentials_on_start:
+            # Simple check that credentials are correct
+            session.get_token()
         return session
 
     def get_clients(self, region):

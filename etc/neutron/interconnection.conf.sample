@@ -49,3 +49,7 @@
 
 # Allow coincidence of interconnctions' regions. (boolean value)
 #allow_regions_coincidence = false
+
+# If True Neutron server will try to get keystone token for interconnection
+# plugin on start and raise exceptions if it's not working. (boolean value)
+#check_credentials_on_start = false

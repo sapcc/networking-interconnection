@@ -61,7 +61,12 @@ INTERCONNECTION_CONFIG_OPTS = [
                  help='Keystone request timeout in seconds.'),
     cfg.BoolOpt('allow_regions_coincidence',
                 default=False,
-                help='Allow coincidence of interconnctions\' regions.')
+                help='Allow coincidence of interconnctions\' regions.'),
+    cfg.BoolOpt('check_credentials_on_start',
+                default=False,
+                help='If True Neutron server will try to get keystone token for'
+                     ' interconnection plugin on start and raise exceptions if'
+                     ' it\'s not working.')
 ]
 
 
