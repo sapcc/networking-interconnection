@@ -27,3 +27,5 @@ TYPE_BGPVPN = "bgpvpn"
 TYPES = [TYPE_BGPVPN]
 
 INVTERCONNECTION_RESOURCE = 'interconnection'
+API_RESOURCE_NAME = 'interconnection'
+API_COLLECTION_NAME = 'interconnections'

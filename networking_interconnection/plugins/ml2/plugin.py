@@ -50,7 +50,7 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
         self.db = intc_db.InterconnectionPluginDb()
 
     def create_interconnection(self, context, interconnection):
-        data = interconnection[intc_exc.RESOURCE_NAME]
+        data = interconnection[constants.API_RESOURCE_NAME]
         if not data['remote_interconnection_id']:
             data['state'] = constants.STATE_WAITING
         else:
@@ -86,7 +86,7 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
         return self.db.get_interconnection(context, id, fields)
 
     def update_interconnection(self, context, id, interconnection):
-        data = interconnection[intc_exc.RESOURCE_NAME]
+        data = interconnection[constants.API_RESOURCE_NAME]
         db_obj = self.db.update_interconnection(context, id, data)
         # if state was changed to VALIDATED we have to synchronize resources
         if data.get('state') and data['state'] == constants.STATE_VALIDATED:
@@ -172,7 +172,7 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
     def _update_interconnection(self, client, id, **kwargs):
         client.put(
             osc_v2.PATH_SINGLE + id,
-            body={intc_exc.RESOURCE_NAME: kwargs})
+            body={constants.API_RESOURCE_NAME: kwargs})
 
     def _validate_resources(self, data, remote_neutron, remote_keystone,
                             local_neutron, local_keystone):
@@ -201,7 +201,7 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
         # get remote interconnection
         r_intcn = remote_neutron.get(
             osc_v2.PATH_SINGLE + data['remote_interconnection_id']
-        )[intc_exc.RESOURCE_NAME]
+        )[constants.API_RESOURCE_NAME]
         # check owner of remote interconnection
         remote_domain_name = self._get_domain_name(
             remote_keystone, r_intcn['project_id'])

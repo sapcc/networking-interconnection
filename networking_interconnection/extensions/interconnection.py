@@ -30,8 +30,6 @@ from networking_interconnection.common import constants
 
 LOG = log.getLogger(__name__)
 ALIAS = "interconnection"
-RESOURCE_NAME = 'interconnection'
-COLLECTION_NAME = 'interconnections'
 
 
 class NotFound(n_exc.NotFound):
@@ -86,7 +84,7 @@ class DriverError(n_exc.NeutronException):
 
 
 RESOURCE_ATTRIBUTE_MAP = {
-    COLLECTION_NAME: {
+    constants.API_COLLECTION_NAME: {
         'id': {'allow_post': False, 'allow_put': False,
                'validate': {'type:uuid': None},
                'is_visible': True,

@@ -103,9 +103,9 @@ class Interconnection(standard_attr.HasStandardAttributes, model_base.BASEV2,
     remote_parameters = sa.Column(JSONEncodedDict, nullable=True)
 
     # standard attributes support:
-    api_collections = [intc_exc.COLLECTION_NAME]
-    collection_resource_map = {intc_exc.COLLECTION_NAME:
-                               intc_exc.RESOURCE_NAME}
+    api_collections = [constants.API_COLLECTION_NAME]
+    collection_resource_map = {constants.API_COLLECTION_NAME:
+                               constants.API_RESOURCE_NAME}
 
 
 class InterconnectionPluginDb(object):

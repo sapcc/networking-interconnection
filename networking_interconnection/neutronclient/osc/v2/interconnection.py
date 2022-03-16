@@ -25,11 +25,12 @@ from neutronclient._i18n import _
 from neutronclient.osc import utils as nc_osc_utils
 
 from networking_interconnection.common import constants
-from networking_interconnection.extensions import interconnection as ext
 
 LOG = logging.getLogger(__name__)
-PATH_SINGLE = '/%s/%s/' % (ext.RESOURCE_NAME, ext.COLLECTION_NAME)
-PATH_COLLECTION = '/%s/%s' % (ext.RESOURCE_NAME, ext.COLLECTION_NAME)
+PATH_SINGLE = '/%s/%s/' % (constants.API_RESOURCE_NAME,
+                           constants.API_COLLECTION_NAME)
+PATH_COLLECTION = '/%s/%s' % (constants.API_RESOURCE_NAME,
+                              constants.API_COLLECTION_NAME)
 
 _attr_map = (
     ('id', 'ID', column_util.LIST_BOTH),
@@ -122,8 +123,9 @@ class CreateInterconnection(command.ShowOne):
                 parsed_args.project_domain,
             ).id
             attrs['project_id'] = project_id
-        body = {ext.RESOURCE_NAME: attrs}
-        obj = client.post(PATH_COLLECTION, body=body)[ext.RESOURCE_NAME]
+        body = {constants.API_RESOURCE_NAME: attrs}
+        obj = client.post(PATH_COLLECTION,
+                          body=body)[constants.API_RESOURCE_NAME]
         columns, display_columns = column_util.get_columns(obj, _attr_map)
         data = osc_utils.get_dict_properties(obj, columns,
                                              formatters=_formatters)
@@ -163,14 +165,14 @@ class SetInterconnection(command.Command):
             attrs['name'] = str(parsed_args.name)
         if parsed_args.state is not None:
             attrs['state'] = str(parsed_args.state)
-        id = client.find_resource(ext.RESOURCE_NAME,
+        id = client.find_resource(constants.API_RESOURCE_NAME,
                                   parsed_args.interconnection)['id']
-        body = {ext.RESOURCE_NAME: attrs}
+        body = {constants.API_RESOURCE_NAME: attrs}
         client.put(PATH_SINGLE + id, body=body)
 
     def _list(self, retrieve_all=True, **_params):
         client = self.app.client_manager.neutronclient
-        return client.list(ext.COLLECTION_NAME, PATH_COLLECTION,
+        return client.list(constants.API_COLLECTION_NAME, PATH_COLLECTION,
                            retrieve_all=retrieve_all, **_params)
 
 
@@ -195,7 +197,8 @@ class DeleteInterconnection(command.Command):
         fails = 0
         for id_or_name in parsed_args.interconnections:
             try:
-                id = client.find_resource(ext.RESOURCE_NAME, id_or_name)['id']
+                id = client.find_resource(constants.API_RESOURCE_NAME,
+                                          id_or_name)['id']
                 client.delete(PATH_SINGLE + id)
                 LOG.warning("Interconnection %(id)s deleted", {'id': id})
             except Exception as e:
@@ -212,7 +215,7 @@ class DeleteInterconnection(command.Command):
 
     def _list(self, retrieve_all=True, **_params):
         client = self.app.client_manager.neutronclient
-        return client.list(ext.COLLECTION_NAME, PATH_COLLECTION,
+        return client.list(constants.API_COLLECTION_NAME, PATH_COLLECTION,
                            retrieve_all=retrieve_all, **_params)
 
 
@@ -250,8 +253,8 @@ class ListInterconnection(command.Lister):
         if parsed_args.property:
             params.update(parsed_args.property)
         objs = client.list(
-            ext.COLLECTION_NAME, PATH_COLLECTION, retrieve_all=True,
-            **params)[ext.COLLECTION_NAME]
+            constants.API_COLLECTION_NAME, PATH_COLLECTION, retrieve_all=True,
+            **params)[constants.API_COLLECTION_NAME]
         headers, columns = column_util.get_column_definitions(
             _attr_map, long_listing=parsed_args.long)
         return (headers, (osc_utils.get_dict_properties(
@@ -277,8 +280,8 @@ class ShowInterconnection(command.ShowOne):
         # neutronclient
         setattr(client, 'list_interconnections', self._list)
         id = client.find_resource(
-            ext.RESOURCE_NAME, parsed_args.interconnection)['id']
-        obj = client.get(PATH_SINGLE + id)[ext.RESOURCE_NAME]
+            constants.API_RESOURCE_NAME, parsed_args.interconnection)['id']
+        obj = client.get(PATH_SINGLE + id)[constants.API_RESOURCE_NAME]
         columns, display_columns = column_util.get_columns(obj, _attr_map)
         data = osc_utils.get_dict_properties(obj, columns,
                                              formatters=_formatters)
@@ -286,5 +289,5 @@ class ShowInterconnection(command.ShowOne):
 
     def _list(self, retrieve_all=True, **_params):
         client = self.app.client_manager.neutronclient
-        return client.list(ext.COLLECTION_NAME, PATH_COLLECTION,
+        return client.list(constants.API_COLLECTION_NAME, PATH_COLLECTION,
                            retrieve_all=retrieve_all, **_params)
