@@ -1,14 +1,74 @@
-.idea
-copy
-dev_install*
-dev_migrate
-venv
-*.pyc
-networking_interconnection.egg-info/*
-.eggs/*
-build/*
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+cover/
+.tox
+nosetests.xml
+.testrepository
+.stestr/
+.venv
+bgpvpn_dashboard/test/.secret_key_store
+*.lock
+
+# Translations
+*.mo
+*.pot
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Complexity
+output/*.html
+output/*/index.html
+
+# Documentation
+doc/build
+doc/source/_static/config-samples/*.sample
+doc/source/_static/*.policy.yaml.sample
+etc/**/*.sample
+
+# pbr generates these
 AUTHORS
 ChangeLog
-.tox
+
+# Files created by releasenotes build
+releasenotes/build
+
+# Editors
+*~
 .*.swp
-.testrepository
+.*sw?
+.idea/*
+
+# dont ignore:
+!/.coveragerc
+!/.gitignore
+!/.gitreview
+!/.mailmap
+!/.pylintrc
+!/.stestr.conf
+!/.testr.conf
