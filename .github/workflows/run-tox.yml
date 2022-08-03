@@ -6,11 +6,11 @@ name: Tox testing
 on:
   push:
     branches:
-      - stable/ussuri-m3
+      - stable/yoga-m3
       - master
   pull_request:
     branches:
-      - stable/ussuri-m3
+      - stable/yoga-m3
       - master
 
 env:

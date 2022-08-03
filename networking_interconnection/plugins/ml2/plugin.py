@@ -72,11 +72,20 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
         # Neutron Callback System the only one way how we can start validating
         # interconnection in background. This notification will be catch by
         # _validating_interconnection function.
-        registry.notify(
+        registry.publish(
             constants.INVTERCONNECTION_RESOURCE,
-            events.AFTER_CREATE, self, context=context, interconnection=db_obj,
-            local_resource=local, remote_resource=remote,
-            remote_neutron=remote_neutron, local_neutron=local_neutron)
+            events.AFTER_CREATE, self,
+            payload=events.DBEventPayload(
+                context,
+                metadata={
+                    "interconnection": db_obj,
+                    "local_resource": local,
+                    "remote_resource": remote,
+                    "remote_neutron": remote_neutron,
+                    "local_neutron": local_neutron,
+                }
+            )
+        )
         return db_obj
 
     def get_interconnections(self, context, filters=None, fields=None):
@@ -92,26 +101,40 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
         if data.get('state') and data['state'] == constants.STATE_VALIDATED:
             # Neutron Callback System the only one way how we can start
             # synchronization in background.
-            registry.notify(
-                constants.INVTERCONNECTION_RESOURCE, events.AFTER_UPDATE, self,
-                context=context, interconnection=db_obj)
+            registry.publish(
+                constants.INVTERCONNECTION_RESOURCE,
+                events.AFTER_UPDATE, self,
+                payload=events.DBEventPayload(
+                    context,
+                    metadata={
+                        "interconnection": db_obj,
+                    }
+                )
+            )
         return db_obj
 
     def delete_interconnection(self, context, id):
         db_obj = self.db.delete_interconnection(context, id)
         # Neutron Callback System the only one way how we can start
         # synchronization in background.
-        registry.notify(
-            constants.INVTERCONNECTION_RESOURCE, events.AFTER_DELETE, self,
-            context=context, interconnection=db_obj)
+        registry.publish(
+            constants.INVTERCONNECTION_RESOURCE,
+            events.AFTER_DELETE, self,
+            payload=events.DBEventPayload(
+                context,
+                metadata={
+                    "interconnection": db_obj,
+                }
+            )
+        )
         return db_obj
 
     @registry.receives(
         constants.INVTERCONNECTION_RESOURCE, [events.AFTER_CREATE])
-    def _sync_interconnections(self, resource, event, trigger, **kwargs):
-        intcn = kwargs.get('interconnection')
-        local_neutron = kwargs.get('local_neutron')
-        remote_neutron = kwargs.get('remote_neutron')
+    def _sync_interconnections(self, resource, event, trigger, payload):
+        intcn = payload.metadata.get('interconnection')
+        local_neutron = payload.metadata.get('local_neutron')
+        remote_neutron = payload.metadata.get('remote_neutron')
         # nothing to validate if remote interconection is not ready
         if not intcn['remote_interconnection_id']:
             return
@@ -130,9 +153,9 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
     @registry.receives(
         constants.INVTERCONNECTION_RESOURCE, [events.AFTER_UPDATE,
                                               events.AFTER_DELETE])
-    def _sync_resources(self, resource, event, trigger, **kwargs):
-        intcn = kwargs.get('interconnection')
-        context = kwargs.get('context')
+    def _sync_resources(self, resource, event, trigger, payload):
+        intcn = payload.metadata.get('interconnection')
+        context = payload.context
         try:
             # get local and remote clients
             local_neutron, _ = self.mngr.get_clients(self.cfg.region_name)

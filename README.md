@@ -7,6 +7,6 @@ The repository hosts an implementation of Openstack drivers to support BGPVPN in
 
 The scheme how it works:
 
-![alt text](https://github.com/sapcc/networking-interconnection/blob/stable/ussuri-m3/interconnection-scheme.png?raw=true)
+![alt text](https://github.com/sapcc/networking-interconnection/blob/stable/yoga-m3/interconnection-scheme.png?raw=true)
 
 **The current state in beta, there are currently issues with performance degradation over time being investigated**

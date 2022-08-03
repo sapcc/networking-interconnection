@@ -16,4 +16,3 @@ testresources>=0.2.4
 requests
 osprofiler
 six
-networking_bgpvpn>=11.0.0
