@@ -256,7 +256,7 @@ class TestInterconnectionPlugin(BaseTestCaseMixin):
             for el in self.list('bgpvpn'):
                 self.assertEqual(1, len(el['import_targets']))
 
-    def test_interconnection_duplicate_filed(self):
+    def test_interconnection_duplicate_failed(self):
         with self.bgpvpn(export_targets=['5000:1'],
                          import_targets=['5000:1'],
                          tenant_id=self.tenant_id_1) as bgpvpn_1, \
