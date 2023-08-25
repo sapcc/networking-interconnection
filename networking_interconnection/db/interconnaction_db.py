@@ -114,7 +114,7 @@ class InterconnectionPluginDb(object):
 
     @db_api.CONTEXT_READER
     def _make_dict(self, db_obj: Interconnection,
-                   fields: typing.Optional[list]=None):
+                   fields: typing.Optional[list] = None):
         res = {
             'id': db_obj['id'],
             'project_id': db_obj['project_id'],
@@ -153,8 +153,8 @@ class InterconnectionPluginDb(object):
 
     @db_api.CONTEXT_READER
     def get_interconnections(self, context,
-                             filters: typing.Optional[dict]=None,
-                             fields: typing.Optional[list]=None):
+                             filters: typing.Optional[dict] = None,
+                             fields: typing.Optional[list] = None):
         db_objs = model_query.get_collection(
             context, Interconnection, None,
             filters=filters, fields=fields)
@@ -169,7 +169,7 @@ class InterconnectionPluginDb(object):
 
     @db_api.CONTEXT_READER
     def get_interconnection(self, context, id: str,
-                            fields: typing.Optional[list]=None):
+                            fields: typing.Optional[list] = None):
         db_obj = self._get_interconnection(context, id)
         return self._make_dict(db_obj, fields)
 

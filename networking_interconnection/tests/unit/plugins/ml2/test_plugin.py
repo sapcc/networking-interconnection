@@ -15,8 +15,8 @@
 
 import contextlib
 import copy
-import mock
 import unittest
+from unittest import mock
 import webob.exc
 
 from neutron_lib.plugins import directory
@@ -79,9 +79,9 @@ class BaseTestCaseMixin(test_db_base_plugin_v2.NeutronDbPluginV2TestCase,
                           'TestL3NatServicePlugin'),
         }
 
-        extensions_path = ':'.join(extensions.__path__
-                                   + n_extensions.__path__
-                                   + bgpvpn_ext.__path__)
+        extensions_path = ':'.join(extensions.__path__ +
+                                   n_extensions.__path__ +
+                                   bgpvpn_ext.__path__)
 
         client_mngr = mock.patch(
             'networking_interconnection.common.clients.'
@@ -267,7 +267,7 @@ class TestInterconnectionPlugin(BaseTestCaseMixin):
             with self.intcnt(tenant_id=self.tenant_id_1,
                              local_resource_id=bgpvpn_1['id'],
                              remote_resource_id=bgpvpn_2['id'],
-                             remote_region='RegionTwo') as intcn_1:
+                             remote_region='RegionTwo'):
                 # create duplicate
                 with unittest.TestCase.assertRaises(
                     self, webob.exc.HTTPClientError) as context:

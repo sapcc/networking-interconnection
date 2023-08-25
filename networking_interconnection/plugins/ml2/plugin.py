@@ -198,8 +198,8 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
                     body={'bgpvpn': {'import_targets': list(imports)}})
         except n_client_exc.NeutronClientException as err:
             LOG.error('Could not synchronize targets for local resource bgpvpn'
-                      ' with ID %s. Details: request_ids=%s msg=%s'
-                      % (intcn['local_resource_id'], err.request_ids, err))
+                      ' with ID %s. Details: request_ids=%s msg=%s',
+                      (intcn['local_resource_id'], err.request_ids, err))
             if event != events.AFTER_DELETE:
                 self.db.update_interconnection(
                     context, intcn['id'],
@@ -252,10 +252,10 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
             remote_neutron, data['remote_interconnection_id'],
             state=constants.STATE_VALIDATING)
         # check local and remote resources
-        if (r_intcn['remote_resource_id'] != data['local_resource_id']
-                or r_intcn['local_resource_id'] != data['remote_resource_id']):
-            LOG.error('Invalid resource settings in remote interconnection %s.'
-                      % (data['remote_interconnection_id']))
+        if (r_intcn['remote_resource_id'] != data['local_resource_id'] or
+                r_intcn['local_resource_id'] != data['remote_resource_id']):
+            LOG.error('Invalid resource settings in remote interconnection %s.',
+                      (data['remote_interconnection_id']))
             raise intc_exc.InvalidRemoteInterconnection()
 
     def _validate_regions(self, data):
