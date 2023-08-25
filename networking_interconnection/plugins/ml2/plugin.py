@@ -51,6 +51,19 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
 
     def create_interconnection(self, context, interconnection):
         data = interconnection[constants.API_RESOURCE_NAME]
+        intcs = self.db.get_interconnections(
+            context,
+            filters={
+                'tenant_id': [data['tenant_id']],
+                'local_resource_id': [data['local_resource_id']],
+                'remote_resource_id': [data['remote_resource_id']]},
+            fields=['id'])
+        # We have to check conflict before changing any statuses because
+        # of that we cannot use database unique key, it's too late
+        if intcs:
+            raise intc_exc.DuplicateInterconnaction(
+                local_resource_id=data['local_resource_id'],
+                remote_resource_id=data['remote_resource_id'])
         if not data['remote_interconnection_id']:
             data['state'] = constants.STATE_WAITING
         else:

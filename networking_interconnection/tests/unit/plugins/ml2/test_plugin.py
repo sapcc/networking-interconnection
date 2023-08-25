@@ -256,6 +256,32 @@ class TestInterconnectionPlugin(BaseTestCaseMixin):
             for el in self.list('bgpvpn'):
                 self.assertEqual(1, len(el['import_targets']))
 
+    def test_interconnection_duplicate_filed(self):
+        with self.bgpvpn(export_targets=['5000:1'],
+                         import_targets=['5000:1'],
+                         tenant_id=self.tenant_id_1) as bgpvpn_1, \
+                self.bgpvpn(export_targets=['6000:1'],
+                            import_targets=['6000:1'],
+                            tenant_id=self.tenant_id_2) as bgpvpn_2:
+            # create first side
+            with self.intcnt(tenant_id=self.tenant_id_1,
+                             local_resource_id=bgpvpn_1['id'],
+                             remote_resource_id=bgpvpn_2['id'],
+                             remote_region='RegionTwo') as intcn_1:
+                # create duplicate
+                with unittest.TestCase.assertRaises(
+                    self, webob.exc.HTTPClientError) as context:
+                    with self.intcnt(tenant_id=self.tenant_id_1,
+                                     local_resource_id=bgpvpn_1['id'],
+                                     remote_resource_id=bgpvpn_2['id'],
+                                     remote_region='RegionTwo'):
+                        pass
+                self.assertIn(
+                    ("Interconnection with local resource %s and"
+                     " remote resource %s already exist."
+                     % (bgpvpn_1['id'], bgpvpn_2['id'])),
+                    str(context.exception))
+
     def test__sync_resources_neutron_failed(self):
         with self.bgpvpn(export_targets=['5000:1'],
                          import_targets=['5000:1'],
