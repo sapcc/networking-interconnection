@@ -51,6 +51,19 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
 
     def create_interconnection(self, context, interconnection):
         data = interconnection[constants.API_RESOURCE_NAME]
+        intcs = self.db.get_interconnections(
+            context,
+            filters={
+                'tenant_id': [data['tenant_id']],
+                'local_resource_id': [data['local_resource_id']],
+                'remote_resource_id': [data['remote_resource_id']]},
+            fields=['id'])
+        # We have to check conflict before changing any statuses because
+        # of that we cannot use database unique key, it's too late
+        if intcs:
+            raise intc_exc.DuplicateInterconnaction(
+                local_resource_id=data['local_resource_id'],
+                remote_resource_id=data['remote_resource_id'])
         if not data['remote_interconnection_id']:
             data['state'] = constants.STATE_WAITING
         else:
@@ -185,8 +198,8 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
                     body={'bgpvpn': {'import_targets': list(imports)}})
         except n_client_exc.NeutronClientException as err:
             LOG.error('Could not synchronize targets for local resource bgpvpn'
-                      ' with ID %s. Details: request_ids=%s msg=%s'
-                      % (intcn['local_resource_id'], err.request_ids, err))
+                      ' with ID %s. Details: request_ids=%s msg=%s',
+                      (intcn['local_resource_id'], err.request_ids, err))
             if event != events.AFTER_DELETE:
                 self.db.update_interconnection(
                     context, intcn['id'],
@@ -239,10 +252,10 @@ class InterconnectionPlugin(intc_exc.InterconnectionPluginBase,
             remote_neutron, data['remote_interconnection_id'],
             state=constants.STATE_VALIDATING)
         # check local and remote resources
-        if (r_intcn['remote_resource_id'] != data['local_resource_id']
-                or r_intcn['local_resource_id'] != data['remote_resource_id']):
-            LOG.error('Invalid resource settings in remote interconnection %s.'
-                      % (data['remote_interconnection_id']))
+        if (r_intcn['remote_resource_id'] != data['local_resource_id'] or
+                r_intcn['local_resource_id'] != data['remote_resource_id']):
+            LOG.error('Invalid resource settings in remote interconnection %s.',
+                      (data['remote_interconnection_id']))
             raise intc_exc.InvalidRemoteInterconnection()
 
     def _validate_regions(self, data):

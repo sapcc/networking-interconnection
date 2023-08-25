@@ -70,6 +70,11 @@ class BgpvpnUsedByAnotherInterconnaction(n_exc.Conflict):
                 "multiple bgpvpns.")
 
 
+class DuplicateInterconnaction(n_exc.Conflict):
+    message = _("Interconnection with local resource %(local_resource_id)s and"
+                " remote resource %(remote_resource_id)s already exist.")
+
+
 class BgpvpnExportTargetsIsEpmty(n_exc.BadRequest):
     message = _("BGPVPN %(bgpvpn)s has not export targets, nothing to use for"
                 " interconnection")

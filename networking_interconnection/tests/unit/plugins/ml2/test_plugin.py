@@ -15,8 +15,8 @@
 
 import contextlib
 import copy
-import mock
 import unittest
+from unittest import mock
 import webob.exc
 
 from neutron_lib.plugins import directory
@@ -79,9 +79,9 @@ class BaseTestCaseMixin(test_db_base_plugin_v2.NeutronDbPluginV2TestCase,
                           'TestL3NatServicePlugin'),
         }
 
-        extensions_path = ':'.join(extensions.__path__
-                                   + n_extensions.__path__
-                                   + bgpvpn_ext.__path__)
+        extensions_path = ':'.join(extensions.__path__ +
+                                   n_extensions.__path__ +
+                                   bgpvpn_ext.__path__)
 
         client_mngr = mock.patch(
             'networking_interconnection.common.clients.'
@@ -255,6 +255,32 @@ class TestInterconnectionPlugin(BaseTestCaseMixin):
             # check that import-targets were reverted on both sides
             for el in self.list('bgpvpn'):
                 self.assertEqual(1, len(el['import_targets']))
+
+    def test_interconnection_duplicate_failed(self):
+        with self.bgpvpn(export_targets=['5000:1'],
+                         import_targets=['5000:1'],
+                         tenant_id=self.tenant_id_1) as bgpvpn_1, \
+                self.bgpvpn(export_targets=['6000:1'],
+                            import_targets=['6000:1'],
+                            tenant_id=self.tenant_id_2) as bgpvpn_2:
+            # create first side
+            with self.intcnt(tenant_id=self.tenant_id_1,
+                             local_resource_id=bgpvpn_1['id'],
+                             remote_resource_id=bgpvpn_2['id'],
+                             remote_region='RegionTwo'):
+                # create duplicate
+                with unittest.TestCase.assertRaises(
+                    self, webob.exc.HTTPClientError) as context:
+                    with self.intcnt(tenant_id=self.tenant_id_1,
+                                     local_resource_id=bgpvpn_1['id'],
+                                     remote_resource_id=bgpvpn_2['id'],
+                                     remote_region='RegionTwo'):
+                        pass
+                self.assertIn(
+                    ("Interconnection with local resource %s and"
+                     " remote resource %s already exist."
+                     % (bgpvpn_1['id'], bgpvpn_2['id'])),
+                    str(context.exception))
 
     def test__sync_resources_neutron_failed(self):
         with self.bgpvpn(export_targets=['5000:1'],
