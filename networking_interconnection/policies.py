@@ -15,7 +15,7 @@
 
 from oslo_policy import policy
 
-from neutron.conf.policies import base as common_base
+from neutron_lib import policy as neutron_policy
 
 
 RULE_ADMIN_OR_OWNER = 'rule:admin_or_owner'
@@ -62,7 +62,7 @@ rules = [
     ),
     policy.DocumentedRuleDefault(
         'update_interconnection:state',
-        common_base.policy_or(
+        neutron_policy.policy_or(
             RULE_ADMIN_ONLY,
             'rule:interconnection',
         ),
@@ -76,7 +76,7 @@ rules = [
     ),
     policy.DocumentedRuleDefault(
         'update_interconnection:remote_interconnection_id',
-        common_base.policy_or(
+        neutron_policy.policy_or(
             RULE_ADMIN_ONLY,
             'rule:interconnection',
         ),
