@@ -6,27 +6,19 @@ name: Tox testing
 on:
   push:
     branches:
-      - stable/yoga-m3
-      - master
+      - stable/2026.1-m3
   pull_request:
-    branches:
-      - stable/yoga-m3
-      - master
 
 env:
-  VIRTUALENV_PIP: "20.2.3"
+  # VIRTUALENV_PIP: "20.2.3"
+  PYTHON_VERSION: '3.12'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: [3.8]
-
     steps:
       - uses: actions/checkout@v2
-      - name: Setup python ${{ matrix.python-version }}
+      - name: Setup python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
@@ -34,4 +26,16 @@ jobs:
         run: |
           pip install tox
       - name: Run Tox
-        run: "tox -e pep8,py38"
+        run: "tox -e py3"
+  pep8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Tox
+        run: pip install tox
+      - name: Run Tox pep8
+        run: "tox -e pep8"
